@@ -44,8 +44,26 @@ namespace Kata.Tests
             Assert.IsTrue(checkOut.Total() == 5.40m);
         }
 
+        [Test]
+        public void TotalsOnlyWithSpecialOffersDecoupled()
+        {
+            List<Item> products = new List<Item>()
+            {   new Item() { SKU = "A99", UnitPrice = 0.50m },
+                new Item() { SKU = "A99", UnitPrice = 0.50m },
+                new Item() { SKU = "A99", UnitPrice = 0.50m },
+                new Item() { SKU = "B15", UnitPrice = 0.30m },
+                new Item() { SKU = "B15", UnitPrice = 0.30m },
+                new Item() { SKU = "C40", UnitPrice = 0.60m }
+            };
 
+            List<PricingRule> discountRules = new List<PricingRule>
+            {
+                new PricingRule { SKU = "A99", Quantity = 3, DiscountPrice = 1.3m },
+                new PricingRule { SKU = "B15", Quantity = 2, DiscountPrice = 0.45m }
+            };
 
-
+            var totaller = new ProductCalculator(products, discountRules);
+            Assert.IsTrue(totaller.Total() == 5.40m);
+        }
     }
 }

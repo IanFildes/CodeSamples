@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Checkout.cs" />
-    <Compile Include="ItemCalculator.cs" />
+    <Compile Include="ProductCalculator.cs" />
     <Compile Include="PricingRule.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

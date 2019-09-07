@@ -23,28 +23,10 @@ namespace Kata
 
         public decimal Total(bool applyDiscounts = true)
         {
-            decimal totalPrice = 0.0m;
-            var scannedGroups = _scannedItems.GroupBy(x => x.SKU);
+            ProductCalculator itemCalculator = new ProductCalculator(_scannedItems, _discountRules);
+            return itemCalculator.Total(applyDiscounts);
 
-            foreach (var scannedGroup in scannedGroups)
-            {
-                var groupCount = scannedGroup.Count();
-                var scannedItem = scannedGroup.FirstOrDefault();
-                PricingRule discount = null;
-                if (applyDiscounts)
-                {
-                    discount = _discountRules.FirstOrDefault(x => x.SKU == scannedGroup.Key);
-                }
-                if (discount != null && groupCount >= discount.Quantity)
-                {
-                    totalPrice += discount.DiscountPrice * groupCount;
-                }
-                else
-                {
-                    totalPrice += scannedItem.UnitPrice * groupCount;
-                }
-            }
-            return totalPrice;
+            
         }
 
         public bool Scan (Item item)
