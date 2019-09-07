@@ -15,7 +15,7 @@ namespace Kata.Tests
         {
             var item = new Item() { SKU = productCode };
             var checkOut = new Checkout();
-            Assert.IsTrue(checkOut.Scan(new Item() { SKU = "productCode" }));
+            Assert.IsTrue(checkOut.Scan(new Item() { SKU = productCode }));
         }
 
         [Test]

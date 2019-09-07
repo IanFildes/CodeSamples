@@ -8,6 +8,8 @@ namespace Kata
 {
     public class Checkout
     {
+        private readonly List<Item> _scannedItems = new List<Item>();
+
         private readonly List<Item> _itemPrices = new List<Item>
         {
             new Item { SKU = "A99", UnitPrice = 0.50m },
@@ -23,7 +25,14 @@ namespace Kata
 
         public decimal Total()
         {
-            return 0m;
+            decimal totalPrice = 0.0m;
+
+            foreach (var scannedItem in _scannedItems )
+            {
+                totalPrice += scannedItem.UnitPrice;
+            }
+
+            return totalPrice;
         }
 
         public bool Scan (Item item)
@@ -31,7 +40,16 @@ namespace Kata
             if (item == null)
                 throw new Exception("Null parameter passed");
 
-            throw new Exception("Not Implemented");
+            var registeredItem = _itemPrices.FirstOrDefault(x => x.SKU == item.SKU);
+
+            if (registeredItem == null)
+                throw new Exception("Product has not been registered in the system");
+
+            item.UnitPrice = registeredItem.UnitPrice;
+
+            _scannedItems.Add(item);
+
+            return true;
         }
 
 
