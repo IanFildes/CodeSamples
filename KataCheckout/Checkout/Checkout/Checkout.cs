@@ -21,7 +21,7 @@ namespace Kata
             new PricingRule { SKU = "B15", Quantity = 2, DiscountPrice = 0.45m }
         };
 
-        public decimal Total()
+        public decimal Total(bool applyDiscounts = true)
         {
             decimal totalPrice = 0.0m;
             var scannedGroups = _scannedItems.GroupBy(x => x.SKU);
@@ -30,7 +30,11 @@ namespace Kata
             {
                 var groupCount = scannedGroup.Count();
                 var scannedItem = scannedGroup.FirstOrDefault();
-                var discount = _discountRules.FirstOrDefault(x => x.SKU == scannedGroup.Key);
+                PricingRule discount = null;
+                if (applyDiscounts)
+                {
+                    discount = _discountRules.FirstOrDefault(x => x.SKU == scannedGroup.Key);
+                }
                 if (discount != null && groupCount >= discount.Quantity)
                 {
                     totalPrice += discount.DiscountPrice * groupCount;
@@ -40,18 +44,6 @@ namespace Kata
                     totalPrice += scannedItem.UnitPrice * groupCount;
                 }
             }
-            return totalPrice;
-        }
-
-        private decimal GetBasicTotal()
-        {
-            decimal totalPrice = 0.0m;
-
-            foreach (var scannedItem in _scannedItems)
-            {
-                totalPrice += scannedItem.UnitPrice;
-            }
-
             return totalPrice;
         }
 

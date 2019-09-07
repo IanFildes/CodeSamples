@@ -28,7 +28,7 @@ namespace Kata.Tests
             checkOut.Scan(new Item() { SKU = "B15" });
             checkOut.Scan(new Item() { SKU = "B15" });
             checkOut.Scan(new Item() { SKU = "C40" });
-            Assert.IsTrue(checkOut.Total() == 2.70m);
+            Assert.IsTrue(checkOut.Total(false) == 2.70m);
         }
 
         [Test]
