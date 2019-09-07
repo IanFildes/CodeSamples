@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kata
 {
@@ -26,8 +24,30 @@ namespace Kata
         public decimal Total()
         {
             decimal totalPrice = 0.0m;
+            var scannedGroups = _scannedItems.GroupBy(x => x.SKU);
 
-            foreach (var scannedItem in _scannedItems )
+            foreach (var scannedGroup in scannedGroups)
+            {
+                var groupCount = scannedGroup.Count();
+                var scannedItem = scannedGroup.FirstOrDefault();
+                var discount = _discountRules.FirstOrDefault(x => x.SKU == scannedGroup.Key);
+                if (discount != null && groupCount >= discount.Quantity)
+                {
+                    totalPrice += discount.DiscountPrice * groupCount;
+                }
+                else
+                {
+                    totalPrice += scannedItem.UnitPrice * groupCount;
+                }
+            }
+            return totalPrice;
+        }
+
+        private decimal GetBasicTotal()
+        {
+            decimal totalPrice = 0.0m;
+
+            foreach (var scannedItem in _scannedItems)
             {
                 totalPrice += scannedItem.UnitPrice;
             }
