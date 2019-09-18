@@ -30,7 +30,7 @@ namespace Kata
                 }
                 if (discount != null && groupCount >= discount.Quantity)
                 {
-                    totalPrice += discount.DiscountPrice * groupCount;
+                    totalPrice += GetDiscountedPrice(groupCount, product, discount);
                 }
                 else
                 {
@@ -38,6 +38,12 @@ namespace Kata
                 }
             }
             return totalPrice;
+        }
+
+        private decimal GetDiscountedPrice(int count, Item product, PricingRule discount)
+        {
+            return (count / discount.Quantity * discount.DiscountPrice) +
+                        (count % discount.Quantity * product.UnitPrice);
         }
     }
 }

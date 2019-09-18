@@ -38,10 +38,12 @@ namespace Kata.Tests
             checkOut.Scan(new Item() { SKU = "A99" });
             checkOut.Scan(new Item() { SKU = "A99" });
             checkOut.Scan(new Item() { SKU = "A99" });
+            checkOut.Scan(new Item() { SKU = "A99" });
+            checkOut.Scan(new Item() { SKU = "B15" });
             checkOut.Scan(new Item() { SKU = "B15" });
             checkOut.Scan(new Item() { SKU = "B15" });
             checkOut.Scan(new Item() { SKU = "C40" });
-            Assert.IsTrue(checkOut.Total() == 5.40m);
+            Assert.IsTrue(checkOut.Total() == 3.15m);
         }
 
         [Test]
@@ -51,6 +53,8 @@ namespace Kata.Tests
             {   new Item() { SKU = "A99", UnitPrice = 0.50m },
                 new Item() { SKU = "A99", UnitPrice = 0.50m },
                 new Item() { SKU = "A99", UnitPrice = 0.50m },
+                new Item() { SKU = "A99", UnitPrice = 0.50m },
+                new Item() { SKU = "B15", UnitPrice = 0.30m },
                 new Item() { SKU = "B15", UnitPrice = 0.30m },
                 new Item() { SKU = "B15", UnitPrice = 0.30m },
                 new Item() { SKU = "C40", UnitPrice = 0.60m }
@@ -63,7 +67,7 @@ namespace Kata.Tests
             };
 
             var totaller = new ProductCalculator(products, discountRules);
-            Assert.IsTrue(totaller.Total() == 5.40m);
+            Assert.IsTrue(totaller.Total() == 3.15m);
         }
     }
 }
